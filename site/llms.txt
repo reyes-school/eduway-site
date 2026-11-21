@@ -5,12 +5,12 @@
 EduWay (EduWay Education Platform) is a white-label school management SaaS from Uzbekistan. Every client school gets its own branded version: the school's logo, colors, name and domain, plus a separate iOS and Android app in the App Store and Google Play under the school's name. The platform interface and PDF reports are in Uzbek (Latin) and Russian. Launch takes about 10 business days.
 
 ## Pages
-- [EduWay — home (Uzbek)](https://eduway.uz/): EduWay — maktablar uchun yagona raqamli platforma: davomat, baho, uy vazifasi, moliya, PDF hisobotlar va ota-onalar ilovasi. Har bir maktab uchun oʻz logotipi, ranglari va iOS/Android ilovasi bilan.
-- [EduWay — home (Russian)](https://eduway.uz/ru/): EduWay — единая цифровая платформа для школ: посещаемость, оценки, домашние задания, финансы, PDF-отчёты и приложение для родителей. Для каждой школы — свой логотип, цвета и приложение iOS/Android.
-- [EduWay — home (English)](https://eduway.uz/en/): EduWay is an all-in-one school management platform: attendance, grades, homework, finance, PDF reports and a parent app. Every school gets its own logo, colors and iOS/Android app.
-- [Steam Plaza case study (Uzbek)](https://eduway.uz/steam-plaza/): Steam Plaza maktabi EduWay platformasini oʻz brendi bilan qanday ishga tushirgani: 2 filial, maktab va bogʻcha, 5 rol, Web, Android va iOS ilova, AES-256 shifrlash.
-- [Steam Plaza case study (Russian)](https://eduway.uz/ru/steam-plaza/): Как школа Steam Plaza запустила платформу EduWay под своим брендом: 2 филиала, школа и детский сад, 5 ролей, Web, Android и iOS, шифрование AES-256.
-- [Steam Plaza case study (English)](https://eduway.uz/en/steam-plaza/): How Steam Plaza launched the EduWay platform under its own brand: 2 branches, school and kindergarten, 5 roles, Web, Android and iOS apps, AES-256 encryption.
+- [EduWay — home (Uzbek)](https://eduway-site-weld.vercel.app/): EduWay — maktablar uchun yagona raqamli platforma: davomat, baho, uy vazifasi, moliya, PDF hisobotlar va ota-onalar ilovasi. Har bir maktab uchun oʻz logotipi, ranglari va iOS/Android ilovasi bilan.
+- [EduWay — home (Russian)](https://eduway-site-weld.vercel.app/ru/): EduWay — единая цифровая платформа для школ: посещаемость, оценки, домашние задания, финансы, PDF-отчёты и приложение для родителей. Для каждой школы — свой логотип, цвета и приложение iOS/Android.
+- [EduWay — home (English)](https://eduway-site-weld.vercel.app/en/): EduWay is an all-in-one school management platform: attendance, grades, homework, finance, PDF reports and a parent app. Every school gets its own logo, colors and iOS/Android app.
+- [Steam Plaza case study (Uzbek)](https://eduway-site-weld.vercel.app/steam-plaza/): Steam Plaza maktabi EduWay platformasini oʻz brendi bilan qanday ishga tushirgani: 2 filial, maktab va bogʻcha, 5 rol, Web, Android va iOS ilova, AES-256 shifrlash.
+- [Steam Plaza case study (Russian)](https://eduway-site-weld.vercel.app/ru/steam-plaza/): Как школа Steam Plaza запустила платформу EduWay под своим брендом: 2 филиала, школа и детский сад, 5 ролей, Web, Android и iOS, шифрование AES-256.
+- [Steam Plaza case study (English)](https://eduway-site-weld.vercel.app/en/steam-plaza/): How Steam Plaza launched the EduWay platform under its own brand: 2 branches, school and kindergarten, 5 roles, Web, Android and iOS apps, AES-256 encryption.
 
 ## Key facts
 - Product type: school and kindergarten management platform (SaaS), white-label
