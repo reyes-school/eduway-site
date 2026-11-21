@@ -4,7 +4,7 @@
 Edit the CONFIG block below (domain, contacts, prices), then rebuild.
 Content lives in content_uz.py / content_ru.py / content_en.py.
 """
-import json, os, sys, shutil, html, datetime
+import json, os, sys, shutil, html, datetime, hashlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from content_uz import T as UZ
 from content_ru import T as RU
@@ -129,6 +129,17 @@ def case_ld(T):
     ]}
 
 # ───────────────────────── layout ─────────────────────────
+_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _ver(rel):
+    """Cache-busting version for immutable-cached assets (content hash)."""
+    for base in ("site", "dist"):
+        fp = os.path.join(_ROOT, base, rel.lstrip("/"))
+        if os.path.exists(fp):
+            return rel + "?v=" + hashlib.md5(open(fp, "rb").read()).hexdigest()[:10]
+    return rel
+CSS_URL = _ver("/assets/css/site.css")
+JS_URL = _ver("/assets/js/site.js")
+
 def head(T, title, desc, canon, alts, ld, og_img):
     L = T["lang"]
     alt_links = "\n".join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{h}">' for l, h in alts.items())
@@ -167,7 +178,7 @@ def head(T, title, desc, canon, alts, ld, og_img):
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 {'<link rel="preload" href="/assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>' if L == "ru" else ''}
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="{CSS_URL}">
 <link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(",", ":"))}</script>
 </head>
@@ -217,7 +228,7 @@ def footer(T):
 </div>
 </footer>
 <a class="mcta" href="{PREFIX[L]}#{CONTACT_ID[L]}">{e(T["mobile_cta"])}</a>
-<script src="/assets/js/site.js" defer></script>
+<script src="{JS_URL}" defer></script>
 </body>
 </html>
 '''

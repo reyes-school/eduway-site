@@ -347,8 +347,8 @@ form.lead-form{background:#fff;border-radius:var(--r);padding:36px;display:grid;
 @media (max-width:700px){.shots{grid-template-columns:1fr}}
 
 /* reveal */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.rv.in{opacity:1;transform:none}
-.no-js .rv{opacity:1;transform:none}
+.rv-on .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv-on .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv-on .rv{opacity:1;transform:none;transition:none}}
 .num-tile{display:flex;flex-direction:column;justify-content:center}
 .num-tile b{font-size:3.4rem;line-height:1;font-weight:700;letter-spacing:-.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}

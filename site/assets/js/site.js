@@ -109,14 +109,18 @@
     });
   }
 
-  // reveal on scroll
-  if ("IntersectionObserver" in window) {
+  // reveal on scroll: content is visible by default; only hidden once JS is confirmed running
+  var rvs = d.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window && rvs.length) {
+    var vh = window.innerHeight || 800;
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
-    }, { rootMargin: "0px 0px -8% 0px" });
-    d.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
-  } else {
-    d.querySelectorAll(".rv").forEach(function (el) { el.classList.add("in"); });
+    }, { rootMargin: "0px 0px 10% 0px" });
+    rvs.forEach(function (el) { if (el.getBoundingClientRect().top < vh) el.classList.add("in"); else io.observe(el); });
+    root.classList.add("rv-on");
+    // safety net: never leave content hidden (e.g. anchor jumps, print, odd browsers)
+    window.addEventListener("hashchange", function () { rvs.forEach(function (el) { el.classList.add("in"); }); });
+    window.addEventListener("beforeprint", function () { rvs.forEach(function (el) { el.classList.add("in"); }); });
   }
 
   var y = d.getElementById("year"); if (y) y.textContent = new Date().getFullYear();
