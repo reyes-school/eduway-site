@@ -10,6 +10,23 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
+  // One-time setup helper: while TELEGRAM_CHAT_ID is not set, GET /api/lead?setup=1 lists the chats
+  // that have written to the bot, so the owner can copy the right chat id. Disabled once the id is set.
+  if (req.method === "GET" && String(req.url || "").includes("setup=1")) {
+    const t = process.env.TELEGRAM_BOT_TOKEN;
+    if (!t) return res.status(200).json({ step: "TELEGRAM_BOT_TOKEN is not set yet" });
+    if (process.env.TELEGRAM_CHAT_ID) return res.status(404).json({ error: "disabled" });
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${t}/getUpdates`);
+      const j = await r.json();
+      const chats = {};
+      for (const u of j.result || []) {
+        const c = (u.message || u.channel_post || u.my_chat_member || {}).chat;
+        if (c) chats[c.id] = c.title || [c.first_name, c.last_name].filter(Boolean).join(" ") || c.username || c.type;
+      }
+      return res.status(200).json({ hint: "Write /start to the bot, then reload. Copy the id into TELEGRAM_CHAT_ID.", chats });
+    } catch (e) { return res.status(502).json({ error: "telegram" }); }
+  }
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "method" }); }
 
   const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "?";
