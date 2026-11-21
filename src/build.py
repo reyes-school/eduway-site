@@ -54,6 +54,7 @@ ICONS = {
  "phone": '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
  "send": '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',
  "mail": '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>',
+ "x": '<path d="M18 6L6 18M6 6l12 12"/>',
  "pin": '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
 }
 def ic(name, cls=""):
@@ -175,38 +176,47 @@ def head(T, title, desc, canon, alts, ld, og_img):
 '''
 
 def header(T, alts, on_home=True):
-    base = "" if on_home else PREFIX[T["lang"]]
-    links = "".join(f'<a href="{base}{a}">{e(n)}</a>' for a, n in T["nav"])
+    L = T["lang"]; P = PREFIX[L]
+    base = "" if on_home else P
+    links = "".join(f'<a href="{base}{T["nav"][i][0]}">{e(T["nav"][i][1])}</a>' for i in (0, 1, 2, 3, 6, 4))
+    mlinks = "".join(f'<li><a href="{base}{a}">{e(n)}</a></li>' for a, n in T["nav"])
     langs = "".join(f'<a href="{alts[X["lang"]].replace(SITE, "")}" hreflang="{X["lang"]}" lang="{X["lang"]}"{" aria-current=\"true\"" if X is T else ""} title="{X["name"]}">{X["short"]}</a>' for X in LANGS)
-    return f'''<header class="hdr">
-<div class="wrap">
-<a class="logo" href="{PREFIX[T["lang"]]}" aria-label="EduWay"><img src="/assets/img/eduway-logo.png" alt="EduWay — Education Platform" width="134" height="38"></a>
-<button class="burger" aria-expanded="false" aria-controls="nav" aria-label="{e(T["menu"])}">{ic("menu")}</button>
-<nav class="nav" id="nav" aria-label="{e(T["menu"])}">
-{links}
+    cta = f'{base}#{CONTACT_ID[L]}'
+    return f'''<div class="ann"><a href="{P}{CASE_SLUG}">{e(T["ann"])} <span>{e(T["ann_link"])} ›</span></a></div>
+<header class="hdr">
+<div class="pill">
+<a class="logo" href="{P}" aria-label="EduWay"><img src="/assets/img/eduway-logo.png" alt="EduWay — Education Platform" width="113" height="32"></a>
+<nav class="nav" aria-label="{e(T["menu"])}">{links}</nav>
+<div class="hdr-r">
 <div class="lang" aria-label="Language">{langs}</div>
-<a class="btn btn-primary" href="{base}#{CONTACT_ID[T["lang"]]}">{e(T["demo"])}</a>
-</nav>
+<a class="btn btn-primary btn-sm" href="{cta}">{e(T["mobile_cta"])}</a>
+<button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="{e(T["menu"])}"><span></span><span></span></button>
+</div>
 </div>
 </header>
+<div class="mnav" id="mnav" hidden>
+<ul>{mlinks}</ul>
+<div class="mnav-foot"><div class="lang">{langs}</div><a class="btn btn-primary btn-lg" href="{cta}">{e(T["mobile_cta"])}</a><a class="mnav-tel" href="tel:{e(PHONE_TEL)}">{e(PHONE)}</a></div>
+</div>
 '''
 
 def footer(T):
-    P = PREFIX[T["lang"]]
+    L = T["lang"]; P = PREFIX[L]
     nav = "".join(f'<li><a href="{P}{a}">{e(n)}</a></li>' for a, n in T["nav"][:3])
     comp = f'<li><a href="{P}{CASE_SLUG}">{e(T["ftr_case"])}</a></li>' + "".join(f'<li><a href="{P}{a}">{e(n)}</a></li>' for a, n in T["nav"][4:])
     langs = "".join(f'<li><a href="{PREFIX[X["lang"]]}" hreflang="{X["lang"]}" lang="{X["lang"]}">{X["name"]}</a></li>' for X in LANGS)
     return f'''<footer class="ftr">
 <div class="wrap">
 <div class="cols">
-<div><img src="/assets/img/eduway-logo-white.png" alt="EduWay" width="141" height="40" loading="lazy"><p>{e(T["ftr_about"])}</p><ul>{langs}</ul></div>
+<div><img src="/assets/img/eduway-logo.png" alt="EduWay" width="113" height="32" loading="lazy"><p>{e(T["ftr_about"])}</p></div>
 <div><h3>{e(T["ftr_product"])}</h3><ul>{nav}</ul></div>
 <div><h3>{e(T["ftr_company"])}</h3><ul>{comp}</ul></div>
-<div><h3>{e(T["ftr_contact"])}</h3><ul class="cinfo">{contact_items(T)}</ul></div>
+<div><h3>{e(T["ftr_contact"])}</h3><ul class="cinfo">{contact_items(T)}</ul><ul class="flangs">{langs}</ul></div>
 </div>
 <div class="bottom"><span>© <span id="year">{datetime.date.today().year}</span> EduWay. {e(T["ftr_rights"])}</span><a href="/llms.txt">llms.txt</a></div>
 </div>
 </footer>
+<a class="mcta" href="{PREFIX[L]}#{CONTACT_ID[L]}">{e(T["mobile_cta"])}</a>
 <script src="/assets/js/site.js" defer></script>
 </body>
 </html>
@@ -218,42 +228,46 @@ def phone(img, alt, cls, eager=False):
 
 def lead_section(T):
     L = T["lang"]
-    incl = "".join(f'<li>{ic("circle-check")}<div>{e(x)}</div></li>' for x in T["price_incl"])
-    return f'''<section class="dark" id="{CONTACT_ID[L]}" aria-labelledby="price-h">
-<div class="wrap contact">
-<div>
-<span class="eyebrow">{e(T["price_eyebrow"])}</span>
-<h2 id="price-h">{e(T["price_h2"])}</h2>
-<p class="lead">{e(T["price_lead"])}</p>
-<ul class="checks">{incl}</ul>
+    incl = "".join(f'<li>{ic("tick")}<span>{e(x)}</span></li>' for x in T["price_incl"])
+    return f'''<section class="lead-sec" id="{CONTACT_ID[L]}" aria-labelledby="price-h">
+<div class="wrap">
+<div class="head center"><p class="kicker">{e(T["price_eyebrow"])}</p><h2 id="price-h">{e(T["price_h2"])}</h2><p class="sub">{e(T["price_lead"])}</p></div>
+<div class="lead-grid">
+<div class="lead-side">
+<ul class="ticks">{incl}</ul>
 <ul class="cinfo">{contact_items(T)}</ul>
 </div>
 <form class="lead-form" id="leadForm" action="/api/lead" method="post" data-sending="{e(T["f_sending"])}" novalidate>
 <input type="hidden" name="lang" value="{L}">
 <input type="hidden" name="page" value="">
 <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<fieldset class="seg"><legend class="sr">{e(T["f_type"])}</legend>
+<label><input type="radio" name="type" value="school" checked><span>{e(T["f_type_school"])}</span></label>
+<label><input type="radio" name="type" value="partner"><span>{e(T["f_type_partner"])}</span></label>
+</fieldset>
 <label>{e(T["f_name"])}<input name="name" autocomplete="name" maxlength="80" required></label>
 <label>{e(T["f_phone"])}<input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+998 __ ___ __ __" maxlength="20" minlength="9" required></label>
 <label>{e(T["f_school"])}<input name="school" autocomplete="organization" maxlength="120" required></label>
 <label>{e(T["f_city"])}<input name="city" autocomplete="address-level2" maxlength="60" required></label>
-<button class="btn btn-primary" type="submit">{e(T["f_send"])} {ic("arrow")}</button>
+<button class="btn btn-primary btn-lg" type="submit">{e(T["f_send"])}</button>
 <small>{e(T["f_note"])}</small>
 <div class="form-ok" id="formOk" role="status" tabindex="-1">{e(T["f_ok"])}</div>
 <div class="form-err" id="formErr" role="alert">{e(T["f_err"])} <a href="tel:{e(PHONE_TEL)}">{e(PHONE)}</a></div>
 </form>
+</div>
 </div>
 </section>
 '''
 
 # ───────────────────────── pages ─────────────────────────
 def home(T):
-    L = T["lang"]; I = ids(T)
+    L = T["lang"]; I = ids(T); CID = CONTACT_ID[L]
     alts = {X["lang"]: url(X) for X in LANGS}
     out = head(T, T["meta_title"], T["meta_desc"], url(T), alts, home_ld(T), f"{SITE}/assets/img/og-{L}.png")
     out += header(T, alts)
-    chips = "".join(f'<li>{ic("circle-check")}{e(c)}</li>' for c in T["hero_chips"])
+    notes = "".join(f'<li>{ic("tick")}{e(c)}</li>' for c in T["hero_note"])
     stats = "".join(f'<div class="stat"><b>{e(n)}</b><span>{e(l)}</span></div>' for n, l in T["stats"])
-    prob = "".join(f'<article class="card rv"><div class="num">0{i+1}</div><h3>{e(a)}</h3><p>{e(b)}</p></article>' for i, (a, b) in enumerate(T["prob"]))
+    values = "".join(f'<article class="val rv"><span class="vnum">0{i+1}</span><h3>{e(a)}</h3><p>{e(b)}</p></article>' for i, (a, b) in enumerate(T["values"]))
     tabs = "".join(f'<button role="tab" id="tab-{r[0]}" aria-controls="panel-{r[0]}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{e(r[1])}</button>' for i, r in enumerate(T["roles"]))
     panels = ""
     for i, (rid, name, title, items, img, alt) in enumerate(T["roles"]):
@@ -261,70 +275,66 @@ def home(T):
         w, h = (1440, 900) if wide else (600, 1298)
         lis = "".join(f'<li>{ic("tick")}<span>{e(x)}</span></li>' for x in items)
         panels += f'''<div class="panel" role="tabpanel" id="panel-{rid}" aria-labelledby="tab-{rid}"{"" if i == 0 else " hidden"}>
-<div><h3>{e(name)}: {e(title)}</h3><ul>{lis}</ul></div>
+<div><h3>{e(title)}</h3><ul class="ticks">{lis}</ul></div>
 <div class="shot{" wide" if wide else ""}"><img src="/assets/img/{img}.webp" alt="{e(alt)}" width="{w}" height="{h}" loading="lazy" decoding="async"></div>
 </div>'''
-    bitems = "".join(f'<li>{ic("circle-check")}<div><b>{e(a)}</b>{e(b)}</div></li>' for a, b in T["brand_items"])
-    sw = [("#16a34a", "#e8f6ec", "Green"), ("#00AEEF", "#e6f7fd", "Sky"), ("#0B2A55", "#e7edf6", "Navy"), ("#7c3aed", "#f1eafe", "Violet"), ("#dc2626", "#fdecec", "Red"), ("#ea8a00", "#fdf2e0", "Orange")]
+    bitems = "".join(f'<li>{ic("circle-check")}<div><b>{e(a)}</b> {e(b)}</div></li>' for a, b in T["brand_items"])
+    sw = [("#16a34a", "#e8f6ec", "Green"), ("#0077cc", "#e6f2fb", "Blue"), ("#0B2A55", "#e7edf6", "Navy"), ("#7c3aed", "#f1eafe", "Violet"), ("#dc2626", "#fdecec", "Red"), ("#ea8a00", "#fdf2e0", "Orange")]
     swb = "".join(f'<button type="button" style="background:{c}" data-c="{c}" data-s="{s}" aria-pressed="{"true" if i == 0 else "false"}" aria-label="{n}"></button>' for i, (c, s, n) in enumerate(sw))
     nav4 = "".join(f"<span>{e(x)}</span>" for x in T["mock_nav"])
-    feats = "".join(f'<article class="card rv"><div class="ico">{ic(k)}</div><h3>{e(a)}</h3><p>{e(b)}</p></article>' for k, a, b in T["feats"])
-    sec = "".join(f'<article class="card rv"><div class="ico">{ic(k)}</div><h3>{e(a)}</h3><p>{e(b)}</p></article>' for k, a, b in T["sec"])
+    f = T["feats"]
+    small = "".join(f'<article class="tile rv"><div class="ico">{ic(k)}</div><h3>{e(a)}</h3><p>{e(b)}</p></article>' for i, (k, a, b) in enumerate(f) if i not in (1, 3))
+    small += "".join(f'<article class="tile num-tile rv"><b>{e(n)}</b><p>{e(l)}</p></article>' for n, l in T["stats"][1:3])
+    bento = f'''<article class="tile big rv"><div><div class="ico">{ic(f[1][0])}</div><h3>{e(f[1][1])}</h3><p>{e(f[1][2])}</p></div><div class="tile-img phone-crop"><img src="/assets/img/app-teacher.webp" alt="{e(T["roles"][1][5])}" width="600" height="1298" loading="lazy" decoding="async"></div></article>
+<article class="tile big dark rv"><div><div class="ico">{ic(f[3][0])}</div><h3>{e(f[3][1])}</h3><p>{e(f[3][2])}</p></div><div class="tile-img"><img src="/assets/img/web-reports.webp" alt="{e(T["shots_web"][1])}" width="1440" height="900" loading="lazy" decoding="async"></div></article>
+{small}'''
+    cmp_b = "".join(f'<li>{ic("x")}<span>{e(a)}</span></li>' for a, _ in T["compare"])
+    cmp_a = "".join(f'<li>{ic("tick")}<span>{e(b)}</span></li>' for _, b in T["compare"])
+    sec = "".join(f'<div class="sec-item rv"><div class="ico">{ic(k)}</div><h3>{e(a)}</h3><p>{e(b)}</p></div>' for k, a, b in T["sec"])
     facts = "".join(f'<div><b>{e(a)}</b><span>{e(b)}</span></div>' for a, b in T["case_facts"])
     steps = "".join(f'<li class="rv"><span class="when">{e(w)}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for w, t, d in T["launch"])
-    faq = "".join(f'<details class="rv"{" open" if i == 0 else ""}><summary><h3 style="display:inline;font-size:inherit;margin:0;color:inherit">{e(q)}</h3></summary><p>{e(a)}</p></details>' for i, (q, a) in enumerate(T["faq"]))
+    slots = "".join(f'<div class="plogo slot"><span>{e(T["partner_slot"])}</span></div>' for _ in range(3))
+    faq = "".join(f'<details class="rv"{" open" if i == 0 else ""}><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for i, (q, a) in enumerate(T["faq"]))
     out += f'''<main id="main">
 <section class="hero" aria-labelledby="h1">
 <div class="wrap">
-<div>
-<span class="eyebrow">{e(T["hero_eyebrow"])}</span>
+<p class="kicker">{e(T["hero_eyebrow"])}</p>
 <h1 id="h1">{T["hero_h1"]}</h1>
-<p class="lead">{e(T["hero_lead"])}</p>
-<div class="cta-row"><a class="btn btn-primary" href="#{CONTACT_ID[L]}">{e(T["demo"])} {ic("arrow")}</a><a class="btn btn-ghost" href="#{I[0]}">{e(T["hero_cta2"])}</a></div>
-<ul class="chips">{chips}</ul>
+<p class="sub">{e(T["hero_lead"])}</p>
+<div class="cta-row center"><a class="btn btn-primary btn-lg" href="#{CID}">{e(T["mobile_cta"])}</a><a class="link-more" href="#{I[1]}">{e(T["hero_cta2"])} ›</a></div>
+<ul class="notes">{notes}</ul>
 </div>
-<div class="phones">
+<div class="stage">
+<div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="/assets/img/web-dashboard.webp" alt="{e(T["shots_web"][0])}" width="1440" height="900" fetchpriority="high" decoding="async"></div>
 {phone("app-parent-green", T["alt_parent_green"], "p1", True)}
-{phone("app-parent-violet", T["alt_parent_violet"], "p2")}
-<div class="tag t1"><i style="background:#16a34a"></i>{e(T["hero_tag1"])}</div>
-<div class="tag t2"><i style="background:#7c3aed"></i>{e(T["hero_tag2"])}</div>
-</div>
+{phone("app-parent-violet", T["alt_parent_violet"], "p2", True)}
 </div>
 </section>
 
+<section class="answer-sec" aria-labelledby="answer-q">
 <div class="wrap">
-<div class="answer" id="answer"><h2>{e(T["answer_q"])}</h2><p>{e(T["answer_a"])}</p></div>
+<div class="answer" id="answer"><h2 id="answer-q">{e(T["answer_q"])}</h2><p>{e(T["answer_a"])}</p></div>
 <div class="stats">{stats}</div>
 </div>
+</section>
 
-<section aria-labelledby="prob-h">
+<section class="values" aria-labelledby="val-h">
 <div class="wrap">
-<div class="head"><span class="eyebrow">{e(T["prob_eyebrow"])}</span><h2 id="prob-h">{e(T["prob_h2"])}</h2></div>
-<div class="grid g4">{prob}</div>
+<div class="head center"><p class="kicker">{e(T["value_eyebrow"])}</p><h2 id="val-h">{e(T["value_h2"])}</h2></div>
+<div class="val-grid">{values}</div>
 </div>
 </section>
 
-<section class="alt" id="{I[1]}" aria-labelledby="roles-h">
+<section class="brand-sec" id="{I[2]}" aria-labelledby="brand-h">
 <div class="wrap">
-<div class="head"><span class="eyebrow">{e(T["roles_eyebrow"])}</span><h2 id="roles-h">{e(T["roles_h2"])}</h2><p class="lead">{e(T["roles_lead"])}</p></div>
-<div class="tabs" role="tablist" aria-label="{e(T["roles_h2"])}">{tabs}</div>
-{panels}
-</div>
-</section>
-
-<section class="dark" id="{I[2]}" aria-labelledby="brand-h">
-<div class="wrap brand">
-<div>
-<span class="eyebrow">{e(T["brand_eyebrow"])}</span>
-<h2 id="brand-h">{e(T["brand_h2"])}</h2>
-<p class="lead">{e(T["brand_lead"])}</p>
+<div class="head center"><p class="kicker">{e(T["brand_eyebrow"])}</p><h2 id="brand-h">{e(T["brand_h2"])}</h2><p class="sub">{e(T["brand_lead"])}</p></div>
+<div class="brand">
 <ul class="checks">{bitems}</ul>
-</div>
 <div class="builder">
-<h3>{e(T["builder_title"])}</h3>
+<p class="builder-t">{e(T["builder_title"])}</p>
 <label for="schoolName">{e(T["builder_name"])}</label>
 <input type="text" id="schoolName" placeholder="{e(T["builder_ph"])}" maxlength="28" autocomplete="off">
-<div style="margin-top:14px"><span class="sr">{e(T["builder_color"])}</span><label>{e(T["builder_color"])}</label></div>
+<p class="builder-l">{e(T["builder_color"])}</p>
 <div class="swatches">{swb}</div>
 <div class="mock" id="mock" aria-live="polite">
 <div class="mock-top"><div class="mock-logo" id="mockInit">{e(T["builder_default"][0])}</div><div><b id="mockName">{e(T["builder_default"])}</b><small>{e(T["mock_role"])}</small></div></div>
@@ -335,54 +345,83 @@ def home(T):
 </div>
 </div>
 </div>
-</section>
-
-<section id="{I[0]}" aria-labelledby="feat-h">
-<div class="wrap">
-<div class="head center"><span class="eyebrow">{e(T["feat_eyebrow"])}</span><h2 id="feat-h">{e(T["feat_h2"])}</h2><p class="lead">{e(T["feat_lead"])}</p></div>
-<div class="grid g3">{feats}</div>
-<div class="shots" style="margin-top:40px">
-<figure class="rv"><img src="/assets/img/web-dashboard.webp" alt="{e(T["shots_web"][0])}" width="1440" height="900" loading="lazy" decoding="async"><figcaption>{e(T["shots_web"][0])}</figcaption></figure>
-<figure class="rv"><img src="/assets/img/web-reports.webp" alt="{e(T["shots_web"][1])}" width="1440" height="900" loading="lazy" decoding="async"><figcaption>{e(T["shots_web"][1])}</figcaption></figure>
-</div>
 </div>
 </section>
 
-<section class="alt" aria-labelledby="sec-h">
+<section class="gray" id="{I[0]}" aria-labelledby="feat-h">
 <div class="wrap">
-<div class="head"><span class="eyebrow">{e(T["sec_eyebrow"])}</span><h2 id="sec-h">{e(T["sec_h2"])}</h2><p class="lead">{e(T["sec_lead"])}</p></div>
-<div class="grid g3">{sec}</div>
+<div class="head center"><p class="kicker">{e(T["bento_eyebrow"])}</p><h2 id="feat-h">{e(T["bento_h2"])}</h2><p class="sub">{e(T["feat_lead"])}</p></div>
+<div class="bento">{bento}</div>
+</div>
+</section>
+
+<section id="{I[1]}" aria-labelledby="roles-h">
+<div class="wrap">
+<div class="head center"><p class="kicker">{e(T["roles_eyebrow"])}</p><h2 id="roles-h">{e(T["roles_h2"])}</h2><p class="sub">{e(T["roles_lead"])}</p></div>
+<div class="tabs" role="tablist" aria-label="{e(T["roles_h2"])}">{tabs}</div>
+{panels}
+</div>
+</section>
+
+<section class="gray" aria-labelledby="cmp-h">
+<div class="wrap">
+<div class="head center"><p class="kicker">{e(T["compare_eyebrow"])}</p><h2 id="cmp-h">{e(T["compare_h2"])}</h2></div>
+<div class="compare">
+<div class="cmp before rv"><h3>{e(T["compare_before"])}</h3><ul>{cmp_b}</ul></div>
+<div class="cmp after rv"><h3>{e(T["compare_after"])}</h3><ul>{cmp_a}</ul></div>
+</div>
+<div class="cta-row center" style="margin-top:40px"><a class="btn btn-primary btn-lg" href="#{CID}">{e(T["mobile_cta"])}</a></div>
+</div>
+</section>
+
+<section class="black" aria-labelledby="sec-h">
+<div class="wrap">
+<div class="head center"><p class="kicker">{e(T["sec_eyebrow"])}</p><h2 id="sec-h">{e(T["sec_h2"])}</h2><p class="sub">{e(T["sec_lead"])}</p></div>
+<div class="sec-grid">{sec}</div>
 </div>
 </section>
 
 <section id="{I[3]}" aria-labelledby="case-h">
-<div class="wrap case">
-<div>
-<span class="eyebrow">{e(T["case_eyebrow"])}</span>
-<div class="case-logo"><img src="/assets/img/steam-plaza-logo.webp" alt="Steam Plaza" width="240" height="125" loading="lazy"></div>
+<div class="wrap">
+<div class="case-card">
+<div class="case-txt">
+<p class="kicker">{e(T["case_eyebrow"])}</p>
+<img class="case-logo" src="/assets/img/steam-plaza-logo.webp" alt="Steam Plaza" width="240" height="125" loading="lazy">
 <h2 id="case-h">{e(T["case_h2"])}</h2>
-<p class="lead">{e(T["case_lead"])}</p>
+<p class="sub">{e(T["case_lead"])}</p>
 <div class="facts">{facts}</div>
-<a class="btn btn-dark" href="{PREFIX[L]}{CASE_SLUG}">{e(T["case_more"])} {ic("arrow")}</a>
+<a class="link-more" href="{PREFIX[L]}{CASE_SLUG}">{e(T["case_more"])} ›</a>
 </div>
-<div class="phones" style="height:520px">
+<div class="case-phones">
 {phone("app-teacher", T["roles"][1][5], "p1")}
 {phone("app-award", T["c_gal"][1][1], "p2")}
 </div>
 </div>
+</div>
 </section>
 
-<section class="alt" aria-labelledby="launch-h">
+<section class="gray" id="{I[6]}" aria-labelledby="partners-h">
 <div class="wrap">
-<div class="head center"><span class="eyebrow">{e(T["launch_eyebrow"])}</span><h2 id="launch-h">{e(T["launch_h2"])}</h2></div>
+<div class="head center"><p class="kicker">{e(T["partners_eyebrow"])}</p><h2 id="partners-h">{e(T["partners_h2"])}</h2><p class="sub">{e(T["partners_lead"])}</p></div>
+<div class="partners">
+<div class="plogo"><img src="/assets/img/steam-plaza-logo.webp" alt="Steam Plaza" width="240" height="125" loading="lazy"><span>Steam Plaza</span></div>
+{slots}
+</div>
+<div class="pprog rv"><div><h3>{e(T["partner_prog_h3"])}</h3><p>{e(T["partner_prog_p"])}</p></div><a class="btn btn-dark btn-lg" href="#{CID}" data-type="partner">{e(T["partner_cta"])}</a></div>
+</div>
+</section>
+
+<section aria-labelledby="launch-h">
+<div class="wrap">
+<div class="head center"><p class="kicker">{e(T["launch_eyebrow"])}</p><h2 id="launch-h">{e(T["launch_h2"])}</h2></div>
 <ol class="steps">{steps}</ol>
-<p class="note">✓ {e(T["launch_note"])}</p>
+<p class="note">{ic("tick")} {e(T["launch_note"])}</p>
 </div>
 </section>
 
 <section id="{I[5]}" aria-labelledby="faq-h">
 <div class="wrap">
-<div class="head center"><span class="eyebrow">{e(T["faq_eyebrow"])}</span><h2 id="faq-h">{e(T["faq_h2"])}</h2></div>
+<div class="head center"><p class="kicker">{e(T["faq_eyebrow"])}</p><h2 id="faq-h">{e(T["faq_h2"])}</h2></div>
 <div class="faq">{faq}</div>
 </div>
 </section>

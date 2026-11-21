@@ -2,7 +2,7 @@
 // Required env vars (Vercel → Project → Settings → Environment Variables):
 //   TELEGRAM_BOT_TOKEN — token from @BotFather
 //   TELEGRAM_CHAT_ID   — chat/group id that receives leads (e.g. -1001234567890)
-const LIMIT = { name: 80, phone: 20, school: 120, city: 60, lang: 2, page: 80 };
+const LIMIT = { name: 80, phone: 20, school: 120, city: 60, lang: 2, page: 80, type: 10 };
 const hits = new Map(); // best-effort per-instance rate limit
 
 const clean = (v, n) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
   if (!token || !chat) { console.error("lead: Telegram env vars missing", f); return res.status(503).json({ error: "not_configured" }); }
 
   const text = [
-    "🆕 <b>EduWay — yangi lead (narx soʻrovi)</b>",
+    f.type === "partner" ? "🤝 <b>EduWay — yangi hamkorlik soʻrovi</b>" : "🆕 <b>EduWay — yangi lead (narx soʻrovi)</b>",
     `👤 Ism: ${esc(f.name)}`,
     `📞 Telefon: ${esc(f.phone)}`,
     `🏫 Maktab: ${esc(f.school)}`,

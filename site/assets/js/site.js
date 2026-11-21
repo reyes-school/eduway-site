@@ -8,18 +8,37 @@
   var onScroll = function () { if (hdr) hdr.classList.toggle("scrolled", window.scrollY > 8); };
   window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
-  // mobile nav
-  var burger = d.querySelector(".burger"), nav = d.getElementById("nav");
-  if (burger && nav) {
+  // full-screen mobile menu
+  var burger = d.querySelector(".burger"), mnav = d.getElementById("mnav");
+  function closeMenu() {
+    if (!mnav || mnav.hidden) return;
+    mnav.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); d.body.classList.remove("noscroll");
+    setTimeout(function () { mnav.hidden = true; }, 250);
+  }
+  if (burger && mnav) {
     burger.addEventListener("click", function () {
-      var open = nav.classList.toggle("open");
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      if (mnav.hidden) {
+        mnav.hidden = false; d.body.classList.add("noscroll"); burger.setAttribute("aria-expanded", "true");
+        requestAnimationFrame(function () { mnav.classList.add("open"); });
+      } else closeMenu();
     });
-    nav.addEventListener("click", function (e) {
-      if (e.target.closest("a") && nav.classList.contains("open")) {
-        nav.classList.remove("open"); burger.setAttribute("aria-expanded", "false");
-      }
+    mnav.addEventListener("click", function (e) { if (e.target.closest("a")) closeMenu(); });
+    d.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
+  }
+
+  // "Become a partner" buttons preselect the request type in the lead form
+  d.querySelectorAll("[data-type]").forEach(function (a) {
+    a.addEventListener("click", function () {
+      var r = d.querySelector('#leadForm input[name=type][value="' + a.dataset.type + '"]');
+      if (r) r.checked = true;
     });
+  });
+
+  // sticky mobile CTA hides while the lead form is on screen
+  var mcta = d.querySelector(".mcta"), lead = d.getElementById("leadForm");
+  if (mcta && "IntersectionObserver" in window) {
+    if (!lead) mcta.classList.add("hide");
+    else new IntersectionObserver(function (es) { mcta.classList.toggle("hide", es[0].isIntersecting); }).observe(lead);
   }
 
   // role tabs (WAI-ARIA tabs)
@@ -81,7 +100,7 @@
       fetch(form.action, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(function () {
-          form.reset(); form.querySelectorAll(".touched").forEach(function (i) { i.classList.remove("touched"); });
+          var t = form.querySelector("input[name=type]:checked"); form.reset(); if (t) t.checked = true; form.querySelectorAll(".touched").forEach(function (i) { i.classList.remove("touched"); });
           ok.classList.add("show"); ok.focus();
           if (window.gtag) window.gtag("event", "generate_lead");
         })
