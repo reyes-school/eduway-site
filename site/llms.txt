@@ -1,0 +1,86 @@
+# EduWay
+
+> EduWay is a school and kindergarten management platform (SaaS). It runs timetables, attendance, grades, homework, tuition payments, salaries, expenses, PDF reports and parent notifications in one system. Each school gets the platform under its own brand — logo, colors, domain and a separate app in the App Store and Google Play.
+
+EduWay (EduWay Education Platform) is a white-label school management SaaS from Uzbekistan. Every client school gets its own branded version: the school's logo, colors, name and domain, plus a separate iOS and Android app in the App Store and Google Play under the school's name. The platform interface and PDF reports are in Uzbek (Latin) and Russian. Launch takes about 10 business days.
+
+## Pages
+- [EduWay — home (Uzbek)](https://eduway.uz/): EduWay — maktablar uchun yagona raqamli platforma: davomat, baho, uy vazifasi, moliya, PDF hisobotlar va ota-onalar ilovasi. Har bir maktab uchun oʻz logotipi, ranglari va iOS/Android ilovasi bilan.
+- [EduWay — home (Russian)](https://eduway.uz/ru/): EduWay — единая цифровая платформа для школ: посещаемость, оценки, домашние задания, финансы, PDF-отчёты и приложение для родителей. Для каждой школы — свой логотип, цвета и приложение iOS/Android.
+- [EduWay — home (English)](https://eduway.uz/en/): EduWay is an all-in-one school management platform: attendance, grades, homework, finance, PDF reports and a parent app. Every school gets its own logo, colors and iOS/Android app.
+- [Steam Plaza case study (Uzbek)](https://eduway.uz/steam-plaza/): Steam Plaza maktabi EduWay platformasini oʻz brendi bilan qanday ishga tushirgani: 2 filial, maktab va bogʻcha, 5 rol, Web, Android va iOS ilova, AES-256 shifrlash.
+- [Steam Plaza case study (Russian)](https://eduway.uz/ru/steam-plaza/): Как школа Steam Plaza запустила платформу EduWay под своим брендом: 2 филиала, школа и детский сад, 5 ролей, Web, Android и iOS, шифрование AES-256.
+- [Steam Plaza case study (English)](https://eduway.uz/en/steam-plaza/): How Steam Plaza launched the EduWay platform under its own brand: 2 branches, school and kindergarten, 5 roles, Web, Android and iOS apps, AES-256 encryption.
+
+## Key facts
+- Product type: school and kindergarten management platform (SaaS), white-label
+- Platforms: Web, Android, iOS (one codebase)
+- Roles: principal/owner, manager, accountant, teacher, parent — each with its own dashboard and permissions
+- Multi-branch: several branches per organisation, each with a school and kindergarten section
+- Languages: Uzbek (Latin) and Russian (interface and PDF reports)
+- Security: AES-256-GCM encryption of files and personal fields, scrypt password hashing, brute-force lockout, rate limiting, audit log, HTTPS/HSTS, strict CSP, daily backups; hosting in Uzbekistan is possible
+- Launch: ~10 business days (discovery, branding and setup, data import, staff training)
+- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, city); all modules and support included
+- First client: Steam Plaza (2 branches, school + kindergarten, 5 roles, Web + Android + iOS)
+
+## Roles
+- Parent: Home: attendance, average grade and class ranking; Today's lessons hour by hour, current lesson and topic; Daily menu: breakfast, lunch and snack; Homework and per-subject statistics; Send “My child can't come” in one tap; Rate teachers and get instant notifications
+- Teacher: Today's timetable: current lesson and time left; Attendance and grades in seconds; Homework with photos and files, check the previous one; Parents see results as soon as the lesson ends; Teacher of the month — based on parent ratings and open lessons
+- Principal: Overview report: organisation → branch → school and kindergarten; Lessons in progress and dashboard figures; Student and teacher rankings; Add and manage branches; Audit log: who did what and when
+- Manager: Students: profile, documents, achievements; Classes, subjects and a clash-free timetable; Assign substitute teachers; News, open lessons and menu; See absence notices
+- Accountant: Income and expense ledger by month, branch and section; Payments, salaries and expenses; Debtors calculated automatically; Upload a bank payment order — AI reads the amount; Monthly and annual PDF reports in one click
+
+## Features
+- Timetable and lessons: Weekly timetable, start and end a lesson in one tap, assign substitutes.
+- Attendance and grades: Present / late / absent and 1–5 grades in seconds. Parents see them instantly.
+- Homework: Set homework with photos and files, mark completion in the next lesson.
+- Finance: Payments, salaries, expenses and debtors — by branch and section.
+- AI assistant: Upload a bank payment order and AI reads the amount for you.
+- PDF reports: Student and teacher profiles with documents attached, monthly and annual financial reports.
+- Notifications: In-app messages and browser push that arrive even when the site is closed.
+- “Can't come” notices: A parent sends it — the class teacher, teachers and admin know right away.
+- Rankings: Student and teacher rankings. Reach 1st place and the app celebrates with confetti.
+- News and open lessons: School announcements delivered by branch and class.
+- Menu: Daily breakfast, lunch and snack — parents see it in advance.
+- Branches and kindergarten: Several branches, each with a school and kindergarten — in one system.
+
+## FAQ
+### What is EduWay?
+EduWay is a school and kindergarten management platform. It brings attendance, grades, homework, timetables, payments, salaries, reports and parent communication into one system. It works as a website and as Android and iOS apps.
+
+### What does “under the school's brand” mean?
+EduWay builds a dedicated version for each school: the school's logo, colors and name, its own domain, and an app published in the App Store and Google Play under the school's name. Parents and teachers see your school's brand, not EduWay.
+
+### Which roles does the platform have?
+Five roles: principal (owner), manager, accountant, teacher and parent. Each role has its own dashboard and permissions — for example, a parent sees only their own child and an accountant sees only their branch's finances.
+
+### What do parents see in the app?
+Their child's attendance, grades, class ranking, today's lessons and topics, homework, menu, payments and school news. Parents can send a “My child can't come” notice and rate teachers.
+
+### Is there a mobile app?
+Yes. The platform works on iPhone (iOS), Android and desktop browsers, with the same data on every device. The app is published in the App Store and Google Play with your school's name and logo.
+
+### How long does launch take?
+Usually 10 business days: discovery (days 1–2), brand and setup (days 3–5), data import (days 6–8), staff training and go-live (days 9–10).
+
+### Do we have to enter student lists ourselves?
+No. During launch we import student, teacher and parent data for you.
+
+### Is the data secure?
+Yes. Documents and personal data are encrypted with AES-256, passwords are stored as hashes, login is locked after repeated failed attempts, important actions are written to an audit log and backups run daily. Data can also be hosted on servers in Uzbekistan.
+
+### What if we have several branches and a kindergarten?
+EduWay supports several branches in one organisation, and each branch can have a school and a kindergarten section. The principal sees the overall report; staff see only their own branch.
+
+### Which languages are supported?
+The interface and PDF reports are available in Uzbek (Latin) and Russian. Each user picks their language.
+
+### How much does it cost?
+Pricing is calculated for each school individually. Fill in the form on the site (your name, phone, school name and city) and our specialist will contact you with an exact offer. Every plan includes all modules and technical support.
+
+### Is there a free demo?
+Yes. We'll show you the platform live using your own school as the example. Leave a request using the form below.
+
+## Contact
+- Phone: +998770077656
+- Region: Uzbekistan
