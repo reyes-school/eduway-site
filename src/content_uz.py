@@ -155,3 +155,5 @@ T.update({
 "mobile_cta": "Narxni bilish",
 "how_link": "Batafsil",
 })
+
+T.update({'ann': 'EduWay — maktabingiz uchun oʻz brendidagi ilova va veb platforma, 10 ish kunida.', 'ann_link': 'Narxni bilish', 'case_eyebrow': 'Amalda isbotlangan', 'case_h2': 'EduWay real maktabda har kuni ishlamoqda', 'case_lead': 'EduWay — sinovdan oʻtgan tayyor platforma. Ikki filialli maktab va bogʻchada besh rol, veb sayt hamda Android va iOS ilovalar bitta tizimda ishlaydi. Birinchi mijozimiz — Steam Plaza.', 'case_more': 'Qanday ishga tushirilganini koʻrish', 'f_city': 'Viloyat', 'f_city_ph': 'Viloyatni tanlang', 'regions': ['Toshkent shahri', 'Toshkent viloyati', 'Andijon viloyati', 'Buxoro viloyati', 'Fargʻona viloyati', 'Jizzax viloyati', 'Xorazm viloyati', 'Namangan viloyati', 'Navoiy viloyati', 'Qashqadaryo viloyati', 'Qoraqalpogʻiston Respublikasi', 'Samarqand viloyati', 'Sirdaryo viloyati', 'Surxondaryo viloyati']})

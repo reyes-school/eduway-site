@@ -92,7 +92,7 @@
       e.preventDefault();
       ok.classList.remove("show"); err.classList.remove("show");
       var bad = null;
-      form.querySelectorAll("input[required]").forEach(function (i) { i.classList.add("touched"); if (!bad && !i.checkValidity()) bad = i; });
+      form.querySelectorAll("input[required],select[required]").forEach(function (i) { i.classList.add("touched"); if (!bad && !i.checkValidity()) bad = i; });
       if (bad) { bad.focus(); bad.reportValidity && bad.reportValidity(); return; }
       var data = {}; new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
       data.page = location.pathname;
@@ -109,18 +109,100 @@
     });
   }
 
-  // reveal on scroll: content is visible by default; only hidden once JS is confirmed running
-  var rvs = d.querySelectorAll(".rv");
-  if ("IntersectionObserver" in window && rvs.length) {
+  // ---------- motion ----------
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rvs = [];
+  if ("IntersectionObserver" in window && !reduce) {
+    // word-by-word headlines (hero h1 + section h2)
+    d.querySelectorAll(".hero h1, .head h2, .case-txt h2, .lead-sec h2").forEach(function (h) {
+      var n = 0;
+      (function split(el) {
+        Array.prototype.slice.call(el.childNodes).forEach(function (c) {
+          if (c.nodeType === 3) {
+            var frag = d.createDocumentFragment();
+            c.textContent.split(/(\s+)/).forEach(function (w) {
+              if (!w) return;
+              if (/^\s+$/.test(w)) { frag.appendChild(d.createTextNode(w)); return; }
+              var s = d.createElement("span"); s.className = "mw"; s.style.setProperty("--w", n++); s.textContent = w; frag.appendChild(s);
+            });
+            el.replaceChild(frag, c);
+          } else if (c.nodeType === 1 && c.tagName !== "BR") {
+            if (c.classList.contains("grad")) { c.classList.add("mwi"); c.style.setProperty("--w", n++); }
+            else split(c);
+          }
+        });
+      })(h);
+      h.classList.add("mh", "rv");
+    });
+    // stagger siblings inside grids
+    d.querySelectorAll(".val-grid,.bento,.sec-grid,.steps,.partners,.facts,.faq,.stats,.compare,.checks").forEach(function (g) {
+      var i = 0;
+      Array.prototype.forEach.call(g.children, function (c) {
+        if (!c.classList.contains("rv")) c.classList.add("rv");
+        c.style.setProperty("--d", (Math.min(i++, 8) * 0.08) + "s");
+      });
+    });
+    rvs = Array.prototype.slice.call(d.querySelectorAll(".rv"));
     var vh = window.innerHeight || 800;
+    var show = function (el) {
+      el.classList.add("in");
+      // drop the stagger delay once revealed so hover feels instant
+      setTimeout(function () { el.style.removeProperty("--d"); }, 1400);
+      if (el.classList.contains("stat")) countUp(el.querySelector("b"));
+    };
     var io = new IntersectionObserver(function (es) {
-      es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
-    }, { rootMargin: "0px 0px 10% 0px" });
-    rvs.forEach(function (el) { if (el.getBoundingClientRect().top < vh) el.classList.add("in"); else io.observe(el); });
+      es.forEach(function (en) { if (en.isIntersecting) { show(en.target); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -6% 0px" });
     root.classList.add("rv-on");
-    // safety net: never leave content hidden (e.g. anchor jumps, print, odd browsers)
-    window.addEventListener("hashchange", function () { rvs.forEach(function (el) { el.classList.add("in"); }); });
-    window.addEventListener("beforeprint", function () { rvs.forEach(function (el) { el.classList.add("in"); }); });
+    rvs.forEach(function (el) { if (el.getBoundingClientRect().top < vh * 0.94) requestAnimationFrame(function () { show(el); }); else io.observe(el); });
+    var all = function () { rvs.forEach(function (el) { el.classList.add("in"); }); };
+    window.addEventListener("hashchange", all); window.addEventListener("beforeprint", all);
+  }
+
+  // count-up for plain integer stats
+  function countUp(b) {
+    if (!b || b.dataset.done) return; b.dataset.done = 1;
+    var t = b.textContent.trim(); if (!/^\d+$/.test(t)) return;
+    var end = +t, t0 = null, dur = 1200;
+    (function step(ts) {
+      if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur), e2 = 1 - Math.pow(1 - k, 3);
+      b.textContent = Math.round(end * e2); if (k < 1) requestAnimationFrame(step); else b.textContent = t;
+    })(performance.now());
+  }
+
+  // scroll-linked: progress bar, hero tilt, parallax phones
+  if (!reduce) {
+    var bar = d.createElement("div"); bar.className = "sprog"; bar.setAttribute("aria-hidden", "true"); d.body.appendChild(bar);
+    var stage = d.querySelector(".stage"), heroWrap = d.querySelector(".hero .wrap");
+    var par = [];
+    d.querySelectorAll(".stage .p1").forEach(function (el) { par.push([el, -0.12]); });
+    d.querySelectorAll(".stage .p2").forEach(function (el) { par.push([el, -0.22]); });
+    d.querySelectorAll(".case-phones .p1").forEach(function (el) { par.push([el, 0.08]); });
+    d.querySelectorAll(".case-phones .p2").forEach(function (el) { par.push([el, -0.1]); });
+    d.querySelectorAll(".builder .mock").forEach(function (el) { par.push([el, -0.06]); });
+    root.classList.add("js-motion");
+    var ticking = false;
+    var frame = function () {
+      ticking = false;
+      var y = window.scrollY, H = window.innerHeight, max = d.documentElement.scrollHeight - H;
+      bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
+      if (stage) {
+        var r = stage.getBoundingClientRect();
+        var p = Math.max(0, Math.min(1, (H - r.top) / (H * 0.55)));
+        stage.style.setProperty("--p", p.toFixed(3));
+      }
+      if (heroWrap && y < H * 1.2) {
+        heroWrap.style.setProperty("--ho", Math.max(0, 1 - y / (H * 0.75)).toFixed(3));
+        heroWrap.style.setProperty("--hy", (y * 0.25).toFixed(1) + "px");
+      }
+      par.forEach(function (it) {
+        var r2 = it[0].getBoundingClientRect(); if (r2.bottom < -200 || r2.top > H + 200) return;
+        var c = (r2.top + r2.height / 2) - H / 2;
+        it[0].style.setProperty("--py", (c * it[1]).toFixed(1) + "px");
+      });
+    };
+    var onS = function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+    window.addEventListener("scroll", onS, { passive: true }); window.addEventListener("resize", onS); frame();
   }
 
   var y = d.getElementById("year"); if (y) y.textContent = new Date().getFullYear();

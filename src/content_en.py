@@ -154,3 +154,5 @@ T.update({
 "mobile_cta": "Get a price",
 "how_link": "Learn more",
 })
+
+T.update({'ann': "EduWay — an app and web platform under your school's own brand, live in 10 working days.", 'ann_link': 'Get a price', 'case_eyebrow': 'Proven in practice', 'case_h2': 'EduWay runs a real school every day', 'case_lead': 'EduWay is a ready, proven platform. A two-branch school and kindergarten runs five roles, a website and Android and iOS apps on one system. Our first client is Steam Plaza.', 'case_more': 'See how the launch went', 'f_city': 'Region', 'f_city_ph': 'Select your region', 'regions': ['Tashkent city', 'Tashkent region', 'Andijan region', 'Bukhara region', 'Fergana region', 'Jizzakh region', 'Khorezm region', 'Namangan region', 'Navoi region', 'Kashkadarya region', 'Republic of Karakalpakstan', 'Samarkand region', 'Syrdarya region', 'Surkhandarya region']})

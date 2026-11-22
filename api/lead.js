@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
     `👤 Ism: ${esc(f.name)}`,
     `📞 Telefon: ${esc(f.phone)}`,
     `🏫 Maktab: ${esc(f.school)}`,
-    `📍 Shahar: ${esc(f.city)}`,
+    `📍 Viloyat: ${esc(f.city)}`,
     `🌐 Til: ${esc(f.lang || "-")} · Sahifa: ${esc(f.page || "/")}`,
   ].join("\n");
 

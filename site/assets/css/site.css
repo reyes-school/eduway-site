@@ -352,3 +352,49 @@ form.lead-form{background:#fff;border-radius:var(--r);padding:36px;display:grid;
 @media (prefers-reduced-motion:reduce){.rv-on .rv{opacity:1;transform:none;transition:none}}
 .num-tile{display:flex;flex-direction:column;justify-content:center}
 .num-tile b{font-size:3.4rem;line-height:1;font-weight:700;letter-spacing:-.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
+
+/* ---------- form select ---------- */
+.lead-form select{font:inherit;font-size:1.02rem;padding:14px 44px 14px 16px;border:1px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236e6e73' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 16px center;-webkit-appearance:none;appearance:none;transition:border-color .2s,box-shadow .2s}
+.lead-form select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.15);outline:none}
+.lead-form select:invalid{color:var(--muted)}
+.lead-form select:invalid.touched{border-color:#e30000}
+.lead-form select option{color:var(--ink)}
+
+/* ---------- motion ---------- */
+.sprog{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--grad);z-index:200;pointer-events:none}
+.rv-on .rv{transition-delay:var(--d,0s)}
+.rv-on .cmp.before.rv{transform:translateX(-48px)}
+.rv-on .cmp.after.rv{transform:translateX(48px) scale(.96)}
+.rv-on .cmp.rv.in{transform:none}
+.rv-on .tile.rv,.rv-on .val.rv,.rv-on .sec-item.rv{transform:translateY(40px) scale(.96)}
+.rv-on .tile.rv.in,.rv-on .val.rv.in,.rv-on .sec-item.rv.in{transform:none}
+/* word-by-word headline reveal */
+.mw{display:inline-block;white-space:pre}
+.rv-on .mh .mw{opacity:0;transform:translateY(.45em);filter:blur(8px);transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease);transition-delay:calc(var(--w,0) * 45ms)}
+.rv-on .mh.in .mw{opacity:1;transform:none;filter:none}
+.rv-on .mh .mwi{opacity:0;filter:blur(8px);transition:opacity .8s var(--ease),filter .8s var(--ease);transition-delay:calc(var(--w,0) * 45ms)}
+.rv-on .mh.in .mwi{opacity:1;filter:none}
+body{overflow-x:clip}
+/* step line draws in */
+.steps li{border-top:0;position:relative}
+.steps li::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--ink);transform-origin:0 50%}
+.rv-on .steps li.rv::before{transform:scaleX(0);transition:transform 1s var(--ease);transition-delay:calc(var(--d,0s) + .15s)}
+.rv-on .steps li.rv.in::before{transform:scaleX(1)}
+/* scroll-linked (JS sets --p 0..1) */
+.stage{perspective:1600px}
+.browser{transform-origin:50% 0}
+.js-motion .browser{transform:translateX(-50%) rotateX(calc((1 - var(--p,1)) * 18deg)) scale(calc(.9 + var(--p,1) * .1))}
+.js-motion .stage .phone,.js-motion .case-phones .phone,.js-motion .builder .mock{translate:0 var(--py,0px)}
+.js-motion .hero .wrap{opacity:var(--ho,1);translate:0 var(--hy,0px)}
+@media (max-width:734px){.js-motion .browser{transform:scale(calc(.94 + var(--p,1) * .06))}}
+/* tilt on hover (desktop) */
+.tilt{transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+@media (hover:hover){.tile:hover,.val:hover,.plogo:hover,.rv-on .tile.rv.in:hover,.rv-on .val.rv.in:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}.val,.plogo{transition:transform .4s var(--ease),box-shadow .4s var(--ease)}}
+@media (prefers-reduced-motion:reduce){
+ .sprog{display:none}
+ .rv-on .mh .mw,.rv-on .rv,.rv-on .cmp.rv{opacity:1;transform:none;filter:none;transition:none}
+ .rv-on .steps li.rv::before{transform:none}
+ .js-motion .browser{transform:translateX(-50%)}
+ .js-motion .stage .phone,.js-motion .case-phones .phone,.js-motion .builder .mock{translate:none}
+}
+@media (max-width:900px){.rv-on .cmp.before.rv,.rv-on .cmp.after.rv{transform:translateY(40px) scale(.97)}.rv-on .cmp.rv.in{transform:none}}

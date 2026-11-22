@@ -189,11 +189,11 @@ def head(T, title, desc, canon, alts, ld, og_img):
 def header(T, alts, on_home=True):
     L = T["lang"]; P = PREFIX[L]
     base = "" if on_home else P
-    links = "".join(f'<a href="{base}{T["nav"][i][0]}">{e(T["nav"][i][1])}</a>' for i in (0, 1, 2, 3, 6, 4))
-    mlinks = "".join(f'<li><a href="{base}{a}">{e(n)}</a></li>' for a, n in T["nav"])
+    links = "".join(f'<a href="{base}{T["nav"][i][0]}">{e(T["nav"][i][1])}</a>' for i in (0, 1, 2, 6, 4, 5))
+    mlinks = "".join(f'<li><a href="{base}{T["nav"][i][0]}">{e(T["nav"][i][1])}</a></li>' for i in (0, 1, 2, 6, 4, 5))
     langs = "".join(f'<a href="{alts[X["lang"]].replace(SITE, "")}" hreflang="{X["lang"]}" lang="{X["lang"]}"{" aria-current=\"true\"" if X is T else ""} title="{X["name"]}">{X["short"]}</a>' for X in LANGS)
     cta = f'{base}#{CONTACT_ID[L]}'
-    return f'''<div class="ann"><a href="{P}{CASE_SLUG}">{e(T["ann"])} <span>{e(T["ann_link"])} ›</span></a></div>
+    return f'''<div class="ann"><a href="{cta}">{e(T["ann"])} <span>{e(T["ann_link"])} ›</span></a></div>
 <header class="hdr">
 <div class="pill">
 <a class="logo" href="{P}" aria-label="EduWay"><img src="/assets/img/eduway-logo.png" alt="EduWay — Education Platform" width="113" height="32"></a>
@@ -224,7 +224,7 @@ def footer(T):
 <div><h3>{e(T["ftr_company"])}</h3><ul>{comp}</ul></div>
 <div><h3>{e(T["ftr_contact"])}</h3><ul class="cinfo">{contact_items(T)}</ul><ul class="flangs">{langs}</ul></div>
 </div>
-<div class="bottom"><span>© <span id="year">{datetime.date.today().year}</span> EduWay. {e(T["ftr_rights"])}</span><a href="/llms.txt">llms.txt</a></div>
+<div class="bottom"><span>© <span id="year">{datetime.date.today().year}</span> EduWay. {e(T["ftr_rights"])}</span></div>
 </div>
 </footer>
 <a class="mcta" href="{PREFIX[L]}#{CONTACT_ID[L]}">{e(T["mobile_cta"])}</a>
@@ -259,7 +259,7 @@ def lead_section(T):
 <label>{e(T["f_name"])}<input name="name" autocomplete="name" maxlength="80" required></label>
 <label>{e(T["f_phone"])}<input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+998 __ ___ __ __" maxlength="20" minlength="9" required></label>
 <label>{e(T["f_school"])}<input name="school" autocomplete="organization" maxlength="120" required></label>
-<label>{e(T["f_city"])}<input name="city" autocomplete="address-level2" maxlength="60" required></label>
+<label>{e(T["f_city"])}<select name="city" autocomplete="address-level1" required><option value="" disabled selected>{e(T["f_city_ph"])}</option>{"".join(f'<option>{e(r)}</option>' for r in T["regions"])}</select></label>
 <button class="btn btn-primary btn-lg" type="submit">{e(T["f_send"])}</button>
 <small>{e(T["f_note"])}</small>
 <div class="form-ok" id="formOk" role="status" tabindex="-1">{e(T["f_ok"])}</div>
@@ -397,7 +397,6 @@ def home(T):
 <div class="case-card">
 <div class="case-txt">
 <p class="kicker">{e(T["case_eyebrow"])}</p>
-<img class="case-logo" src="/assets/img/steam-plaza-logo.webp" alt="Steam Plaza" width="240" height="125" loading="lazy">
 <h2 id="case-h">{e(T["case_h2"])}</h2>
 <p class="sub">{e(T["case_lead"])}</p>
 <div class="facts">{facts}</div>
@@ -544,7 +543,7 @@ EduWay (EduWay Education Platform) is a white-label school management SaaS from 
 - Languages: Uzbek (Latin) and Russian (interface and PDF reports)
 - Security: AES-256-GCM encryption of files and personal fields, scrypt password hashing, brute-force lockout, rate limiting, audit log, HTTPS/HSTS, strict CSP, daily backups; hosting in Uzbekistan is possible
 - Launch: ~10 business days (discovery, branding and setup, data import, staff training)
-- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, city); all modules and support included
+- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, region); all modules and support included
 - First client: Steam Plaza (2 branches, school + kindergarten, 5 roles, Web + Android + iOS)
 
 ## Roles
