@@ -20,7 +20,7 @@ EduWay (EduWay Education Platform) is a white-label school management SaaS from 
 - Languages: Uzbek (Latin) and Russian (interface and PDF reports)
 - Security: AES-256-GCM encryption of files and personal fields, scrypt password hashing, brute-force lockout, rate limiting, audit log, HTTPS/HSTS, strict CSP, daily backups; hosting in Uzbekistan is possible
 - Launch: ~10 business days (discovery, branding and setup, data import, staff training)
-- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, region); all modules and support included
+- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, region); all modules included
 - First client: Steam Plaza (2 branches, school + kindergarten, 5 roles, Web + Android + iOS)
 
 ## Roles
@@ -76,7 +76,7 @@ EduWay supports several branches in one organisation, and each branch can have a
 The interface and PDF reports are available in Uzbek (Latin) and Russian. Each user picks their language.
 
 ### How much does it cost?
-Pricing is calculated for each school individually. Fill in the form on the site (your name, phone, school name and city) and our specialist will contact you with an exact offer. Every plan includes all modules and technical support.
+Pricing is calculated for each school individually. Fill in the form on the site (your name, phone, school name and region) and our specialist will contact you with an exact offer. Every plan includes all modules.
 
 ### Is there a free demo?
 Yes. We'll show you the platform live using your own school as the example. Leave a request using the form below.

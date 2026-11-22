@@ -425,7 +425,6 @@ def home(T):
 <div class="wrap">
 <div class="head center"><p class="kicker">{e(T["launch_eyebrow"])}</p><h2 id="launch-h">{e(T["launch_h2"])}</h2></div>
 <ol class="steps">{steps}</ol>
-<p class="note">{ic("tick")} {e(T["launch_note"])}</p>
 </div>
 </section>
 
@@ -543,7 +542,7 @@ EduWay (EduWay Education Platform) is a white-label school management SaaS from 
 - Languages: Uzbek (Latin) and Russian (interface and PDF reports)
 - Security: AES-256-GCM encryption of files and personal fields, scrypt password hashing, brute-force lockout, rate limiting, audit log, HTTPS/HSTS, strict CSP, daily backups; hosting in Uzbekistan is possible
 - Launch: ~10 business days (discovery, branding and setup, data import, staff training)
-- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, region); all modules and support included
+- Pricing: calculated individually per school — request a quote via the form on the website (name, phone, school, region); all modules included
 - First client: Steam Plaza (2 branches, school + kindergarten, 5 roles, Web + Android + iOS)
 
 ## Roles
