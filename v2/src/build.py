@@ -12,7 +12,7 @@ from content_en import T as EN
 import shelf
 
 # ───────────────────────── CONFIG (placeholders — replace before launch) ─────────────────────────
-SITE = "https://eduway-site-weld.vercel.app"  # production domain, no trailing slash (change when a custom domain is added)
+SITE = "https://eduway-v2.vercel.app"  # production domain, no trailing slash (change when a custom domain is added)
 PHONE = "+998 77 007 76 56"          # shown on the site
 PHONE_TEL = "+998770077656"
 TELEGRAM = ""                         # e.g. "eduway_uz" (without @)
