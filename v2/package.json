@@ -1,0 +1,7 @@
+{
+  "name": "eduway-site",
+  "private": true,
+  "description": "EduWay marketing website (static) + lead form function",
+  "engines": { "node": ">=20" },
+  "scripts": { "build:site": "python3 src/build.py site" }
+}
